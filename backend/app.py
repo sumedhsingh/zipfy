@@ -1,21 +1,27 @@
 from flask import Flask, request, jsonify, Response
+from flask_cors import CORS
 import json,os
+import logging
 from werkzeug.utils import secure_filename
-from backend import analyze_text, allowed_file, store_analysis
+from functions import analyze_text, allowed_file, store_analysis
 from db import create_connection
 
 app = Flask(__name__)                        # initialize flask app
 app.config['Upload'] = 'uploads'             # folder for file uploads
 app.config['Allowed_EXT'] = 'txt'            # allowed file extensions
 
+logging.basicConfig(level=logging.DEBUG)
+
 # if upload folder does not exist
 if not os.path.exists(app.config['Upload']):
     os.makedirs(app.config['Upload'])
 
+CORS(app)                                   # Enabling cross orgin resource sharing
 
 # Default endpoint
 @app.route('/')
 def default():
+    print("We have entered default endpoint")
     response = "Welcome to default endpoint of Zipfy!"
     return Response(response, mimetype='text/plain')
 
@@ -30,9 +36,11 @@ def analyze():
         return jsonify({"error":"No text provided"}),400
     
     analysis_result = analyze_text(text)
-    store_analysis(analysis_result)
-
-    return jsonify(text,analysis_result)
+    id = store_analysis(text,analysis_result)
+    return jsonify({
+        "analysis_id": id,  # Include analysis_id in the response
+        **analysis_result  # Include analysis result data in the response
+    })
 
 
 
@@ -69,7 +77,7 @@ def upload_file():
 def get_analysis(analysis_id):
     conn = create_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM analysis WHERE id = ?",(str(analysis_id)))
+    cursor.execute("SELECT * FROM analysis WHERE id = ?",(str(analysis_id),))
     row = cursor.fetchone()
     conn.close()
 

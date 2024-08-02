@@ -28,7 +28,9 @@ def store_analysis(text,analysis_result):
               json.dumps(analysis_result["most_common"]),json.dumps(analysis_result["rank_frequency"]))
                 )
     conn.commit()
+    analysis_id = cursor.lastrowid  # Get the ID of the inserted row
     conn.close()
+    return analysis_id
 
 def allowed_file(filename,allowed_ext):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_ext

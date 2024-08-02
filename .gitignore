@@ -1,5 +1,33 @@
+
+# virtual environment for python
 venv/
+
+# temp files
 __pycache__/
 *.pyc
 *.db
+
+# test file
 uploads/
+
+# dependencies
+frontend/frontend/node_modules
+frontend/frontend/.pnp
+frontend/frontend/.pnp.js
+
+# testing
+frontend/frontend/coverage
+
+# production
+frontend/frontend/build
+
+# misc
+frontend/frontend/.DS_Store
+frontend/frontend/.env.local
+frontend/frontend/.env.development.local
+frontend/frontend/.env.test.local
+frontend/frontend/.env.production.local
+
+frontend/frontend/npm-debug.log*
+frontend/frontend/yarn-debug.log*
+frontend/frontend/yarn-error.log*
