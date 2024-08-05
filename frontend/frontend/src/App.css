@@ -36,3 +36,36 @@
     transform: rotate(360deg);
   }
 }
+
+/* Add padding to the left of the container */
+.container {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 25px;
+}
+
+/* Style for form elements */
+.form-control {
+  border-radius: 0.25rem; /* Rounded corners */
+}
+
+/* Styling for the form card */
+form {
+  background-color: #f8f9fa; /* Light background for the form */
+}
+
+/* Shadow for the form */
+.shadow-sm {
+  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+}
+
+/* Centered heading */
+.text-center {
+  text-align: center;
+}
+
+/* Large button */
+.btn-lg {
+  padding: .5rem 1rem;
+  font-size: 1.25rem;
+}

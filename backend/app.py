@@ -100,7 +100,7 @@ def get_analysis(analysis_id):
 def get_word_frequencies(analysis_id):
     conn = create_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT most_common FROM analysis WHERE id=?",(str(analysis_id)))
+    cursor.execute("SELECT most_common FROM analysis WHERE id=?",(str(analysis_id),))
     row = cursor.fetchone()
     conn.close()
 
@@ -122,7 +122,7 @@ def get_word_frequencies(analysis_id):
 def get_rank_frequencies(analysis_id):
     conn = create_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT rank_frequency FROM analysis WHERE id=?",(str(analysis_id)))
+    cursor.execute("SELECT rank_frequency FROM analysis WHERE id=?",(str(analysis_id),))
     row = cursor.fetchone()
     conn.close()
 
