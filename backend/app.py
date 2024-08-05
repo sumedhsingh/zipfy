@@ -5,6 +5,9 @@ import logging
 from werkzeug.utils import secure_filename
 from functions import analyze_text, allowed_file, store_analysis
 from db import create_connection
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
 
 app = Flask(__name__)                        # initialize flask app
 app.config['Upload'] = 'uploads'             # folder for file uploads
@@ -132,6 +135,44 @@ def get_rank_frequencies(analysis_id):
     else:
         return jsonify({"error":"Rank frequency for specified ID not found"})
 
+
+
+# Endpoint for calculating Zipfian score
+@app.route('/analysis/<int:analysis_id>/zipfian_score', methods=['GET'])
+def get_zipfian_score(analysis_id):
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT rank_frequency,total_words FROM analysis WHERE id=?", (str(analysis_id),))
+    row = cursor.fetchone()
+    conn.close()
+
+    if row:
+        rank_frequency = json.loads(row[0])
+        total_words = row[1]
+
+        if total_words < 1000:
+            return jsonify({'score': 0})  # Return 0 for texts with fewer than 1000 words
+
+        # Transform data to log-log scale
+        ranks = [item[0] for item in rank_frequency]
+        frequencies = [item[1] for item in rank_frequency]
+        
+        # Filter out non-positive values for valid log transformation
+        valid_data = [(rank, freq) for rank, freq in zip(ranks, frequencies) if rank > 0 and freq > 0]
+        ranks, frequencies = zip(*valid_data)
+
+        # Convert to log scale
+        X = np.log10(ranks).reshape(-1, 1)
+        y = np.log10(frequencies)
+
+        # Perform linear regression
+        model = LinearRegression().fit(X, y)
+        r_squared = model.score(X, y)  # R-squared value
+
+        # Return the Zipfian score as JSON
+        return jsonify({'score': r_squared * 100})  # Convert to percentage
+
+    return jsonify({"error": "Rank frequency for specified ID not found"}), 404
 
 if __name__ == "__main__":                  # for running the script independently
     app.run(debug=True)
