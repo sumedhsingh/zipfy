@@ -1,0 +1,9 @@
+Famous Corpora
+
+Analysis ID: Name
+18: 	     Sherlock Holmes
+20:          Bible
+21: 	     Wikipedia 
+22: 	     Movies 
+23: 	     TV Shows 
+24: 	     Coronavirus 

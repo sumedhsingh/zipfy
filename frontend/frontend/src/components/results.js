@@ -68,6 +68,24 @@ return (
         placeholder="Enter analysis ID"
       />
     </div>
+
+    <div className="row">
+      <div className="col-md-6 mb-3" style={{ textAlign: 'left' }}>
+        <h4>Famous Corpora</h4>
+        <ul>
+          <li>18 : Sherlock Holmes</li>
+          <li>20 : Bible</li>
+          <li>21 : Wikipedia</li>
+          <li>22 : Movies</li>
+          <li>23 : TV Shows</li>
+          <li>24 : Coronavirus</li>
+        </ul>
+      </div>
+      <div className="col-md-6 mb-3" style={{ textAlign: 'left' }}>
+        {/* Second column can be used if you have more data to display */}
+      </div>
+    </div>
+
     <button className="btn btn-primary" onClick={fetchResult}>Fetch Results</button> {/* Button to trigger fetching results */}
     
     {loading && <p>Loading...</p>} {/* Display loading text while fetching data */}
@@ -114,6 +132,8 @@ return (
     )}
   </div>
 );
+
+
 
   
 }
