@@ -175,7 +175,7 @@ def get_zipfian_score(analysis_id):
     return jsonify({"error": "Rank frequency for specified ID not found"}), 404
 
 if __name__ == "__main__":                  # for running the script independently
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000,debug=True)
 
 
 

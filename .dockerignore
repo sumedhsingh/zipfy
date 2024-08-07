@@ -1,0 +1,12 @@
+venv
+node_modules
+
+uploads
+README.md 
+
+.git
+.gitignore
+build
+
+*.pyc
+__pycache__
